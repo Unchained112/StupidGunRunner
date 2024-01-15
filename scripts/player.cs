@@ -8,12 +8,13 @@ public class player : KinematicBody
 	[Export]
 	public int gravity = 80;
 
+	private AnimationTree animTree;
+	private AnimationNodeStateMachinePlayback animStateMachine; 
+
 	public override void _Ready()
 	{
-		//var animPlayer = GetNode<AnimationPlayer>("Swat/RootNode/AnimationPlayer2");
-		//var animTree = GetNode<AnimationTree>("Swat/RootNode/AnimationTree");
-		//AnimationNodeStateMachinePlayback stateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
-		//stateMachine.Travel("Default");
+		animTree = GetNode<AnimationTree>("AnimationTree");
+		animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -21,21 +22,31 @@ public class player : KinematicBody
 		var velocity = Vector3.Zero;
 		if (Input.IsActionPressed("move_right"))
 		{
-			velocity.x = -speed;
+			velocity.x = -1;
 		}
 		if (Input.IsActionPressed("move_left"))
 		{
-			velocity.x = speed;
+			velocity.x = 1;
 		}
 		if (Input.IsActionPressed("move_forward"))
 		{
-			velocity.z = speed;
+			velocity.z = 1;
 		}
 		if (Input.IsActionPressed("move_back"))
 		{
-			velocity.z = -speed;
+			velocity.z = -1;
 		}
 		velocity.y -= gravity * delta;
+		if (velocity.x > 0) {
+			animStateMachine.Travel("RunLeft");
+		}
+		else if (velocity.x < 0) {
+			animStateMachine.Travel("RunRight");
+		}
+		else {
+			animStateMachine.Travel("RunForward");
+		}
+		velocity.x *= speed;
 		MoveAndSlide(velocity, Vector3.Up);
 	}
 }
