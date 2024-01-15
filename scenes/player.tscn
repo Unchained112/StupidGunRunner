@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/swat.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/player.cs" type="Script" id=2]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.0984466
+height = 0.684425
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.442329, 0 )
+shape = SubResource( 1 )
+
+[node name="Swat" parent="." instance=ExtResource( 1 )]
+
+[editable path="Swat"]

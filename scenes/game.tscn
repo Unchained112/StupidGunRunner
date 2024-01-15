@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/Lowpoly Survival City/3d models/Streets/A bridge/Calle.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://assets/Lowpoly Survival City/Materials/new_spatialmaterial.tres" type="Material" id=2]
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.648582, 0.527795, 11.5169 )
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1.62838, 0.16617, 11.4657 )
+
+[node name="Game" type="Spatial"]
+
+[node name="Street" type="StaticBody" parent="."]
+
+[node name="StreetMesh" type="MeshInstance" parent="Street"]
+mesh = ExtResource( 1 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 2 )
+
+[node name="CollisionShapeR" type="CollisionShape" parent="Street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.29501, 0, 0 )
+shape = SubResource( 2 )
+
+[node name="CollisionShapeL" type="CollisionShape" parent="Street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.23021, 0, 0 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0142632, 0.0248519, 0 )
+shape = SubResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.912442, 0.405557, -0.0545308, -0.208137, 0.574695, 0.791457, 0.352319, -0.710809, 0.608788, -5.39385, 13.1347, 5.48972 )
+light_color = Color( 0.929412, 0.87451, 0.815686, 1 )
+light_energy = 2.4
+shadow_enabled = true
+shadow_bias = 0.01
+shadow_reverse_cull_face = true
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.36
+directional_shadow_blend_splits = true
+directional_shadow_normal_bias = 0.0
+directional_shadow_bias_split_scale = 0.0
+directional_shadow_depth_range = 1
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -1, 3.55271e-15, -8.74228e-08, -4.94992e-08, 0.824265, 0.566205, 7.20595e-08, 0.566205, -0.824265, 0, 5.58077, -11.3196 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150987, -8.53091 )

@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Calles21.obj-0431ad0616aeab936a12bd0d93e45c02.mesh"
+
+[deps]
+
+files=[ "res://.import/Calles21.obj-0431ad0616aeab936a12bd0d93e45c02.mesh" ]
+
+source_file="res://assets/Lowpoly Survival City/3d models/Streets/A bridge/Calles21.obj"
+dest_files=[ "res://.import/Calles21.obj-0431ad0616aeab936a12bd0d93e45c02.mesh", "res://.import/Calles21.obj-0431ad0616aeab936a12bd0d93e45c02.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
