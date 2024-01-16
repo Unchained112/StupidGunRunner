@@ -9,7 +9,7 @@ public class player : KinematicBody
 	public int gravity = 80;
 
 	private AnimationTree animTree;
-	private AnimationNodeStateMachinePlayback animStateMachine; 
+	private AnimationNodeStateMachinePlayback animStateMachine;
 
 	public override void _Ready()
 	{
@@ -37,13 +37,16 @@ public class player : KinematicBody
 			velocity.z = -1;
 		}
 		velocity.y -= gravity * delta;
-		if (velocity.x > 0) {
+		if (velocity.x > 0)
+		{
 			animStateMachine.Travel("RunLeft");
 		}
-		else if (velocity.x < 0) {
+		else if (velocity.x < 0)
+		{
 			animStateMachine.Travel("RunRight");
 		}
-		else {
+		else
+		{
 			animStateMachine.Travel("RunForward");
 		}
 		velocity.x *= speed;
