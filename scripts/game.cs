@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class game : Spatial
+public class Game : Spatial
 {
 	[Export]
 	private PackedScene[] streetBlocks = new PackedScene[3];
@@ -25,7 +25,7 @@ public class game : Spatial
 		for (int i = 0; i < 4; i ++)
 		{
 			int randIdx = random.Next(0, streetBlocks.Length);
-			street0 st = (street0)streetBlocks[randIdx].Instance();
+			Street st = (Street)streetBlocks[randIdx].Instance();
 			streetInScene.Enqueue(st);
 			st.SetTranslation(new Vector3(0, 0, streetDistance * i));
 			st.Connect("PlayWalkNextStree", this, "OnPlayWalkNextStree");
@@ -43,10 +43,9 @@ public class game : Spatial
 
 	public void OnPlayWalkNextStree(object body)
 	{
-		GD.Print(body);
 		streetInScene.Dequeue().QueueFree();
 		int randIdx = random.Next(0, streetBlocks.Length);
-		street0 st = (street0)streetBlocks[randIdx].Instance();
+		Street st = (Street)streetBlocks[randIdx].Instance();
 		streetInScene.Enqueue(st);
 		st.SetTranslation(new Vector3(0, 0, streetDistance * 3));
 		st.Connect("PlayWalkNextStree", this, "OnPlayWalkNextStree");

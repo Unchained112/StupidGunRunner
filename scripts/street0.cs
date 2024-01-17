@@ -1,20 +1,14 @@
 using Godot;
 using System;
 
-public class street0 : Spatial
+public class Street0 : Street
 {
 	[Export]
 	public Area deleteArea;
 
-	[Signal]
-	delegate void PlayWalkNextStree(Node body);
-
 	public override void _Ready()
 	{
 		deleteArea = GetNode<Area>("DeleteArea");
-		//GD.Print(deleteArea);
-		//deleteArea.Connect("body_enter", this, "OnDeleteAreaBodyEnter");
-		//GD.Print(deleteArea.GetSignalList());
 	}
 
 	public void OnDeleteAreaBodyEnter(Node body)
