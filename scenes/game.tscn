@@ -27,4 +27,4 @@ transform = Transform( -1, -8.47033e-22, -8.74228e-08, -4.2354e-08, 0.874806, 0.
 fov = 48.0
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150987, -8.08376 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150987, -7.27667 )

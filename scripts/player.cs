@@ -33,6 +33,7 @@ public class Player : KinematicBody
 		{
 			velocity.x = 1;
 		}
+		/*
 		if (Input.IsActionPressed("move_forward"))
 		{
 			velocity.z = 1;
@@ -41,6 +42,7 @@ public class Player : KinematicBody
 		{
 			velocity.z = -1;
 		}
+		*/
 		velocity.y -= gravity * delta;
 		if (velocity.x > 0)
 		{

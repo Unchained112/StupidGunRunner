@@ -14,11 +14,13 @@ public class Game : Spatial
 	public float moveSpeed = 5f;
 
 	[Export]
-	public float streetDistance = 22f;
+	public float streetDistance = 20f;
 
 	private Queue<Spatial> streetInScene = new Queue<Spatial>();
 
 	private Random random = new Random();
+
+	private int streetCnt = 0;
 
 	public override void _Ready()
 	{
@@ -43,12 +45,16 @@ public class Game : Spatial
 
 	public void OnPlayWalkNextStree(object body)
 	{
-		streetInScene.Dequeue().QueueFree();
 		int randIdx = random.Next(0, streetBlocks.Length);
 		Street st = (Street)streetBlocks[randIdx].Instance();
 		streetInScene.Enqueue(st);
 		st.SetTranslation(new Vector3(0, 0, streetDistance * 3));
 		st.Connect("PlayWalkNextStree", this, "OnPlayWalkNextStree");
 		AddChild(st);
+		if (streetCnt == 0) {
+			return;
+		}
+		streetCnt++;
+		streetInScene.Dequeue().QueueFree();
 	}
 }
