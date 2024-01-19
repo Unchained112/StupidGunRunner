@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/Mixmo/parasitezombie_Material1.material" type="Material" id=1]
 [ext_resource path="res://assets/Mixmo/parasitezombie_Material.material" type="Material" id=2]
+[ext_resource path="res://scripts/Enemy.cs" type="Script" id=3]
 
 [sub_resource type="ArrayMesh" id=1]
 blend_shape_mode = 0
@@ -2063,11 +2064,64 @@ tracks/51/imported = false
 tracks/51/enabled = true
 tracks/51/keys = PoolRealArray( 0, 1, 0, 0, 0, -1.38778e-17, -3.72529e-09, 6.70552e-08, 1, 1, 1, 1, 0.0333333, 1, 0, 0, 0, -1.38778e-17, -3.72529e-09, 6.70552e-08, 1, 1, 1, 1 )
 
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "Attack"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "Die"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachine" id=8]
+states/Attack/node = SubResource( 10 )
+states/Attack/position = Vector2( 440, -1 )
+states/Die/node = SubResource( 11 )
+states/Die/position = Vector2( 584, 73 )
+states/Idle/node = SubResource( 12 )
+states/Idle/position = Vector2( 301, 78 )
+states/Run/node = SubResource( 13 )
+states/Run/position = Vector2( 440, 172 )
+transitions = [ "Idle", "Run", SubResource( 14 ), "Run", "Idle", SubResource( 15 ), "Run", "Attack", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Idle", "Attack", SubResource( 18 ), "Attack", "Idle", SubResource( 19 ), "Idle", "Die", SubResource( 20 ), "Die", "Idle", SubResource( 21 ) ]
+start_node = "Idle"
+graph_offset = Vector2( -200, -45 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=9]
+
 [node name="Enemy" type="Spatial"]
+script = ExtResource( 3 )
 
 [node name="Enemy0" type="Spatial" parent="."]
 
 [node name="RootNode" type="Spatial" parent="Enemy0"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 
 [node name="Skeleton" type="Skeleton" parent="Enemy0/RootNode"]
 bones/0/name = "mixamorigLeftHandThumb2"
@@ -2634,3 +2688,9 @@ anims/Die = SubResource( 5 )
 anims/Idle = SubResource( 4 )
 anims/Run = SubResource( 7 )
 anims/mixamo.com = SubResource( 3 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 8 )
+anim_player = NodePath("../Enemy0/RootNode/AnimationPlayer")
+active = true
+parameters/playback = SubResource( 9 )

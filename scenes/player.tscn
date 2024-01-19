@@ -1384,6 +1384,7 @@ graph_offset = Vector2( -726, -56 )
 [node name="Player" type="KinematicBody" groups=["Player"]]
 script = ExtResource( 2 )
 speed = 3
+Ak47 = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.442329, 0 )
@@ -1976,3 +1977,5 @@ parameters/playback = SubResource( 12 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0736789, 0.603587, 0.228465 )
 
 [node name="AK47" parent="GunPos" instance=ExtResource( 4 )]
+
+[node name="AttackTimer" type="Timer" parent="."]
