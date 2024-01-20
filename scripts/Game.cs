@@ -30,11 +30,12 @@ public class Game : Spatial
 	public override void _PhysicsProcess(float delta)
 	{
 		ProcessStreets(delta);
-		ProcessEnemys(delta);
+		ProcessEnemies(delta);
 	}
 
-	private void InitGame(){
-		for (int i = 0; i < 4; i ++)
+	private void InitGame()
+	{
+		for (int i = 0; i < 4; i++)
 		{
 			AddStreetBlock(i);
 		}
@@ -47,17 +48,18 @@ public class Game : Spatial
 	{
 		foreach (Spatial street in streetInScene)
 		{
-			street.SetTranslation(new Vector3(0, 0, street.Translation.z - moveSpeed * delta));
+			street.Translation = new Vector3(0, 0, street.Translation.z - moveSpeed * delta);
 		}
 	}
 
-	private void ProcessEnemys(float delta)
+	private void ProcessEnemies(float delta)
 	{
-		foreach (Enemy em in enemyList)
+		for (int i = 0; i < enemyList.Count; i++)
 		{
+			var em = enemyList[i];
 			if (em.isWaitingPlayer)
 			{
-				em.SetTranslation(new Vector3(0, 0, em.Translation.z - moveSpeed * delta));
+				em.Translation = new Vector3(0, 0, em.Translation.z - moveSpeed * delta); 
 			}
 			if (em.health < 0)
 			{
@@ -72,12 +74,12 @@ public class Game : Spatial
 		int randIdx = random.Next(0, streetBlocks.Length);
 		Street st = (Street)streetBlocks[randIdx].Instance();
 		streetInScene.Enqueue(st);
-		st.SetTranslation(new Vector3(0, 0, streetDistance * i));
-		st.Connect("PlayWalkNextStree", this, "OnPlayWalkNextStree");
+		st.Translation = new Vector3(0, 0, streetDistance * i);
+		st.Connect("PlayWalkNextStreet", this, "OnPlayWalkNextStreet");
 		AddChild(st);
 	}
 
-	private void DeletStreeBlock()
+	private void DeleteStreetBlock()
 	{
 		streetCnt++;
 		streetInScene.Dequeue().QueueFree();
@@ -88,18 +90,19 @@ public class Game : Spatial
 		// Add enemy based on street block count
 		Enemy em = (Enemy)enemy.Instance();
 		em.RegisterPlayer(player);
-		em.SetTranslation(enemySpawnPos.Translation);
+		em.Translation = enemySpawnPos.Translation;
 		enemyList.Add(em);
 		AddChild(em);
 	}
 
-	public void OnPlayWalkNextStree(object body)
+	public void OnPlayWalkNextStreet(object body)
 	{
 		AddStreetBlock(3);
 		AddEnemy();
-		if (streetCnt == 0) {
+		if (streetCnt == 0)
+		{
 			return;
 		}
-		DeletStreeBlock();
+		DeleteStreetBlock();
 	}
 }

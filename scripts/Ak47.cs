@@ -3,19 +3,18 @@ using System;
 
 public class Ak47 : Spatial
 {
-	// Declare member variables here. Examples:
-	// private int a = 2;
-	// private string b = "text";
+	private CPUParticles shootParticle;
+	private AnimationPlayer animPlayer;
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+		shootParticle = GetNode<CPUParticles>("CPUParticles");
+		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+	public void Shoot()
+	{
+		shootParticle.Emitting = true;
+		animPlayer.Play("Shoot");
+	}
 }

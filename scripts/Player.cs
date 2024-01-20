@@ -13,21 +13,28 @@ public class Player : KinematicBody
 	[Export]
 	public int damage = 60;
 	[Export]
-	public PackedScene Ak47;
+	public float range = 25f;
+	[Export]
+	public PackedScene Ak47Scene;
 
-	public int weaponCnt = 1;
-	private Spatial testAk;
+	public int weaponCnt = 0;
 	private List<Enemy> enemyList;
 	private AnimationTree animTree;
 	private AnimationNodeStateMachinePlayback animStateMachine;
 	private Vector3 aimPos = new Vector3(0, 0, 1);
-	private List<Ak47> weaponList;
+	private List<Ak47> weaponList = new List<Ak47>();
+	private Spatial gunPos;
+	private Timer attackTimer;
 
 	public override void _Ready()
 	{
 		animTree = GetNode<AnimationTree>("AnimationTree");
 		animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
-		weaponList.Add(GetNode<Ak47>("GunPos/AK47"));
+		gunPos = GetNode<Spatial>("GunPos");
+		attackTimer = GetNode<Timer>("AttackTimer");
+		AddWeapon();
+		AddWeapon();
+		AddWeapon();
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -66,6 +73,7 @@ public class Player : KinematicBody
 		}
 		velocity.x *= speed;
 		MoveAndSlide(velocity, Vector3.Up);
+		Attack();
 	}
 
 	public void RegisterEnemyList(List<Enemy> enemyList)
@@ -75,22 +83,35 @@ public class Player : KinematicBody
 
 	private void Attack()
 	{
-		float minDist = 25f;
-		Enemy curEnemy = enemyList[0];
-		foreach (Enemy em in enemyList)
+		// Check attack timer
+		if (attackTimer.IsStopped() && enemyList.Count > 0)
 		{
-			var temp = em.Translation.DistanceSquaredTo(this.Translation);
-			if (temp < minDist)
+			attackTimer.Start();
+			// Check through all enemies
+			float minDist = range - 1;
+			Enemy curEnemy = enemyList[0];
+			foreach (Enemy em in enemyList)
 			{
-				minDist = temp;
-				aimPos = em.Translation;
-				curEnemy = em;
+				var temp = em.Translation.DistanceSquaredTo(this.Translation);
+				if (temp < minDist)
+				{
+					minDist = temp;
+					aimPos = em.Translation;
+					curEnemy = em;
+				}
 			}
-		}
-		curEnemy.GetDamage(damage * weaponCnt);
-		for (Ak47 ak in weaponList)
-		{
-			ak.LookAt(aimPos, Vector3.Up);
+			// Enemy within attack range or not
+			if (range < minDist)
+			{
+				return;
+			}
+			curEnemy.GetDamage(damage * weaponCnt);
+			foreach (Ak47 ak in weaponList)
+			{
+				ak.LookAt(aimPos, Vector3.Up);
+				ak.Shoot();
+			}
+
 		}
 	}
 
@@ -99,18 +120,52 @@ public class Player : KinematicBody
 		int cntDiff = cnt - weaponCnt;
 		if (cntDiff > 0)
 		{
-			
+			for (int i = 0; i < cntDiff; i++)
+			{
+				AddWeapon();
+			}
 		}
 		else if (cntDiff < 0)
 		{
-			
+			for (int i = 0; i < -cntDiff; i++)
+			{
+				RemoveWeapon();
+			}
 		}
 		weaponCnt = cnt;
 	}
 
-	public void UpdateWeaponList()
+	private void AddWeapon()
 	{
-		
+		weaponCnt++;
+		Ak47 ak = (Ak47)Ak47Scene.Instance();
+		weaponList.Add(ak);
+		AddChild(ak);
+		UpdateWeaponPos();
 	}
-	
+
+	private void RemoveWeapon()
+	{
+		if (weaponCnt == 1)
+		{
+			health -= 1;
+			return;
+		}
+		else
+		{
+			weaponList.RemoveAt(weaponList.Count - 1);
+			UpdateWeaponPos();
+		}
+	}
+
+	private void UpdateWeaponPos()
+	{
+		for (int i = 0; i < weaponCnt; i++)
+		{
+			int lineLen = weaponCnt % 10;
+			float x = (i - lineLen / 2) * 0.1f;
+			float y = weaponCnt / 10 * 0.2f;
+			weaponList[i].Translation = new Vector3(x, y, 0) + gunPos.Translation;
+		}
+	}
 }

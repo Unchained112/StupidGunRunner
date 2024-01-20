@@ -26,8 +26,9 @@ public class Enemy : Spatial
 
 	public override void _PhysicsProcess(float delta)
 	{
-		var dis =  this.Translation.DistanceSquaredTo(player.Translation);
-		if (dis < rangeSquare && dis > minDistance) {
+		var dis = this.Translation.DistanceSquaredTo(player.Translation);
+		if (dis < rangeSquare && dis > minDistance)
+		{
 			isWaitingPlayer = false;
 			// Follow player
 			animStateMachine.Travel("Run");
@@ -46,7 +47,7 @@ public class Enemy : Spatial
 
 	private void Attack()
 	{
-		
+
 	}
 
 	public void GetDamage(int damage)

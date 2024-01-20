@@ -4,5 +4,5 @@ using System;
 public class Street : Spatial
 {
 	[Signal]
-	delegate void PlayWalkNextStree(Node body);
+	delegate void PlayWalkNextStreet(Node body);
 }

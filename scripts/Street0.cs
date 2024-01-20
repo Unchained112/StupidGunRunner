@@ -14,7 +14,7 @@ public class Street0 : Street
 	public void OnDeleteAreaBodyEnter(Node body)
 	{
 		if (body.IsInGroup("Player")){
-			EmitSignal("PlayWalkNextStree", body);
+			EmitSignal("PlayWalkNextStreet", body);
 		}
 	}
 
